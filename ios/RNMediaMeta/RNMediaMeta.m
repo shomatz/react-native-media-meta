@@ -75,9 +75,10 @@ RCT_EXPORT_METHOD(get:(NSString *)path
       if (thumbnail) {
         [result setObject:@(thumbnail.size.width) forKey:@"width"];
         [result setObject:@(thumbnail.size.height) forKey:@"height"];
-        NSString *data = [UIImagePNGRepresentation(thumbnail) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-        [result setObject:data
-                  forKey:@"thumb"];
+        NSString *filePath = [NSTemporaryDirectory() stringByAppendingString:[[NSUUID UUID] UUIDString]];
+        filePath = [filePath stringByAppendingString:@".png"];
+        [UIImagePNGRepresentation(thumbnail) writeToFile:filePath atomically:true];
+        [result setObject:filePath forKey:@"thumb"];
       }
 
       // video frame thumb
@@ -92,10 +93,10 @@ RCT_EXPORT_METHOD(get:(NSString *)path
         [result setObject:@(thumbnail.size.width) forKey:@"width"];
         [result setObject:@(thumbnail.size.height) forKey:@"height"];
         [result setObject:@((CMTimeGetSeconds(asset.duration) * 1000)) forKey:@"duration"];
-        
-        NSString *data = [UIImagePNGRepresentation(thumbnail) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-        [result setObject:data
-                  forKey:@"thumb"];
+        NSString *filePath = [NSTemporaryDirectory() stringByAppendingString:[[NSUUID UUID] UUIDString]];
+        filePath = [filePath stringByAppendingString:@".png"];
+        [UIImagePNGRepresentation(thumbnail) writeToFile:filePath atomically:true];
+        [result setObject:filePath forKey:@"thumb"];
       }
       CGImageRelease(imageRef);
     }
