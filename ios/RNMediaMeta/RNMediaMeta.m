@@ -101,6 +101,20 @@ RCT_EXPORT_METHOD(get:(NSString *)path
       CGImageRelease(imageRef);
     }
 
+    NSError *error = nil;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error];
+
+    if (error) {
+      NSString *codeWithDomain = [NSString stringWithFormat:@"E%@%zd", error.domain.uppercaseString, error.code];
+      reject(codeWithDomain, error.localizedDescription, error);
+    }
+      
+    [result setObject:@([(NSDate *)[attributes objectForKey:NSFileCreationDate] timeIntervalSince1970]) forKey:@"ctime"];
+    [result setObject:@([(NSDate *)[attributes objectForKey:NSFileModificationDate] timeIntervalSince1970]) forKey:@"mtime"];
+    [result setObject:[attributes objectForKey:NSFileSize] forKey:@"size"];
+    [result setObject:[attributes objectForKey:NSFileType] forKey:@"type"];
+    [result setObject:@([[NSString stringWithFormat:@"%ld", (long)[(NSNumber *)[attributes objectForKey:NSFilePosixPermissions] integerValue]] integerValue]) forKey:@"mode"];
+
     resolve(result);
   }];
 }
