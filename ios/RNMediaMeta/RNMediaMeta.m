@@ -69,6 +69,8 @@ RCT_EXPORT_METHOD(get:(NSString *)path
         NSDictionary *assetOptions = @{AVURLAssetPreferPreciseDurationAndTimingKey: @YES};
         AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:path] options:assetOptions];
         
+        [result setObject:@([asset isPlayable]) forKey:@"playable"];
+        
         NSArray *keys = [NSArray arrayWithObjects:@"commonMetadata", nil];
         [asset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
             // string keys
