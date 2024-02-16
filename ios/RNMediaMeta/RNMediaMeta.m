@@ -5,32 +5,32 @@ static NSArray *metadatas;
 
 - (NSArray *)metadatas
 {
-  if (!metadatas) {
-    metadatas = @[
-      @"albumName",
-      @"artist",
-      @"comment",
-      @"copyrights",
-      @"creationDate",
-      @"date",
-      @"encodedby",
-      @"genre",
-      @"language",
-      @"location",
-      @"lastModifiedDate",
-      @"performer",
-      @"publisher",
-      @"title"
-    ];
-  }
-  return metadatas;
+    if (!metadatas) {
+        metadatas = @[
+            @"albumName",
+            @"artist",
+            @"comment",
+            @"copyrights",
+            @"creationDate",
+            @"date",
+            @"encodedby",
+            @"genre",
+            @"language",
+            @"location",
+            @"lastModifiedDate",
+            @"performer",
+            @"publisher",
+            @"title"
+        ];
+    }
+    return metadatas;
 }
 
 RCT_EXPORT_MODULE()
 
 - (dispatch_queue_t)methodQueue
 {
-  return dispatch_queue_create("com.mybigday.rn.MediaMetaQueue", DISPATCH_QUEUE_SERIAL);
+    return dispatch_queue_create("com.mybigday.rn.MediaMetaQueue", DISPATCH_QUEUE_SERIAL);
 }
 
 RCT_EXPORT_METHOD(get:(NSString *)path
